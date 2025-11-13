@@ -1,0 +1,13 @@
+pandas
+openpyxl
+psycopg2-binary
+requests
+Faker
+apache-airflow
+apache-airflow-providers-postgres
+fastapi
+uvicorn
+requests-mock
+testcontainers
+pytest
+pytest-cov

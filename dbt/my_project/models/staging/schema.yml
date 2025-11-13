@@ -1,9 +1,0 @@
-version: 2
-
-sources:
-  - name: weather_data
-    database: weather_data
-    schema: weather_data
-    tables:
-      - name: weather_data
-        description: "Raw weather data"
