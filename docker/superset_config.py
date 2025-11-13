@@ -19,7 +19,7 @@
 # deploying the image to prod. Settings configured here are intended for use in local
 # development environments. Also note that superset_config_docker.py is imported
 # as a final step as a means to override "defaults" configured here
-#
+# as
 import logging
 import os
 import sys
