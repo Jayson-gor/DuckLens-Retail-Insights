@@ -98,6 +98,11 @@ services:
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
       - DATABASE_DB=ducklens_db
+    volumes:
+      # Exported bundles for auto-import (create these files per instructions)
+      - ./docker/superset_exports/dashboards.zip:/app/assets/dashboards.zip
+      - ./docker/superset_exports/charts.zip:/app/assets/charts.zip
+      - ./docker/superset_exports/datasources.zip:/app/assets/datasources.zip
     ports:
       - "8088:8088"
     depends_on:
@@ -109,7 +114,11 @@ services:
       pip install psycopg2-binary &&
       superset db upgrade &&
       superset fab create-admin --username admin --firstname Admin --lastname User --email admin@superset.com --password admin &&
-      superset init &&
+  superset init &&
+  # Import saved dashboards (try -p, fallback to -f on older/newer CLIs)
+  ( [ -f /app/assets/dashboards.zip ] && ( superset import-dashboards -p /app/assets/dashboards.zip --overwrite || superset import-dashboards -f /app/assets/dashboards.zip --overwrite ) || true ) &&
+  # Import saved datasources (datasets & databases) (try -p then -f)
+  ( [ -f /app/assets/datasources.zip ] && ( superset import-datasources -p /app/assets/datasources.zip --overwrite || superset import-datasources -f /app/assets/datasources.zip --overwrite ) || true ) &&
       superset run -h 0.0.0.0 -p 8088 --with-threads --reload --debugger"
 
 networks:
