@@ -114,11 +114,9 @@ services:
       pip install psycopg2-binary &&
       superset db upgrade &&
       superset fab create-admin --username admin --firstname Admin --lastname User --email admin@superset.com --password admin &&
-  superset init &&
-  # Import saved dashboards (try -p, fallback to -f on older/newer CLIs)
-  ( [ -f /app/assets/dashboards.zip ] && ( superset import-dashboards -p /app/assets/dashboards.zip --overwrite || superset import-dashboards -f /app/assets/dashboards.zip --overwrite ) || true ) &&
-  # Import saved datasources (datasets & databases) (try -p then -f)
-  ( [ -f /app/assets/datasources.zip ] && ( superset import-datasources -p /app/assets/datasources.zip --overwrite || superset import-datasources -f /app/assets/datasources.zip --overwrite ) || true ) &&
+      superset init &&
+      ( [ -f /app/assets/dashboards.zip ] && ( superset import-dashboards -p /app/assets/dashboards.zip --overwrite || superset import-dashboards -f /app/assets/dashboards.zip --overwrite ) || true ) &&
+      ( [ -f /app/assets/datasources.zip ] && ( superset import-datasources -p /app/assets/datasources.zip --overwrite || superset import-datasources -f /app/assets/datasources.zip --overwrite ) || true ) &&
       superset run -h 0.0.0.0 -p 8088 --with-threads --reload --debugger"
 
 networks:
